@@ -82,7 +82,7 @@ st.markdown("""
     }
     
     /* Primary Button (完了) */
-    div[data-testid="stHorizontalBlock"] > div:nth-child(1) .stButton>button {
+    div.element-container:has(#primary-btn-anchor) + div.element-container .stButton>button {
         background-color: #ffffff;
         color: #000000;
         font-size: 1.25rem;
@@ -90,36 +90,36 @@ st.markdown("""
         padding: 1rem 2rem;
         box-shadow: 0 4px 24px rgba(255,255,255,0.2);
     }
-    div[data-testid="stHorizontalBlock"] > div:nth-child(1) .stButton>button:hover {
+    div.element-container:has(#primary-btn-anchor) + div.element-container .stButton>button:hover {
         transform: translateY(-2px);
         box-shadow: 0 6px 32px rgba(255,255,255,0.3);
         background-color: #f0f0f0;
         color: #000000;
     }
-    div[data-testid="stHorizontalBlock"] > div:nth-child(1) .stButton>button:active {
+    div.element-container:has(#primary-btn-anchor) + div.element-container .stButton>button:active {
         transform: translateY(1px) scale(0.98);
     }
 
     /* Secondary Button (ダウングレード) */
-    div[data-testid="stHorizontalBlock"] > div:nth-child(2) .stButton>button {
+    div.element-container:has(#secondary-btn-anchor) + div.element-container .stButton>button {
         background-color: transparent;
         color: #888888;
         font-size: 1rem;
         padding: 0.75rem 1rem;
     }
-    div[data-testid="stHorizontalBlock"] > div:nth-child(2) .stButton>button:hover {
+    div.element-container:has(#secondary-btn-anchor) + div.element-container .stButton>button:hover {
         color: #bbbbbb;
         background-color: rgba(255,255,255,0.05);
     }
 
     /* Tertiary Button (スキップ) */
-    div[data-testid="stHorizontalBlock"] > div:nth-child(3) .stButton>button {
+    div.element-container:has(#tertiary-btn-anchor) + div.element-container .stButton>button {
         background-color: transparent;
         color: #555555;
         font-size: 0.9rem;
         padding: 0.75rem 1rem;
     }
-    div[data-testid="stHorizontalBlock"] > div:nth-child(3) .stButton>button:hover {
+    div.element-container:has(#tertiary-btn-anchor) + div.element-container .stButton>button:hover {
         color: #777777;
         background-color: rgba(255,255,255,0.02);
     }
@@ -242,18 +242,17 @@ with col2:
         st.write("") # スペーサー
         st.write("")
         
-        # ボタンの配置（縦並びにするためのカラムコンテナ）
-        btn_col1, btn_col2, btn_col3 = st.columns(1)
+        # ボタンの配置（アンカーを用いてCSSで要素を特定・デザイン適用）
+        st.markdown("<div id='primary-btn-anchor'></div>", unsafe_allow_html=True)
+        st.button("完了する", on_click=handle_complete, use_container_width=True)
         
-        with btn_col1:
-            st.button("完了する", on_click=handle_complete, use_container_width=True)
-            st.write("") # スペーサー
+        st.write("") # スペーサー
         
-        with btn_col2:
-            st.button(f"忙しい: {DOWNGRADE_TITLE}", on_click=handle_downgrade, use_container_width=True)
+        st.markdown("<div id='secondary-btn-anchor'></div>", unsafe_allow_html=True)
+        st.button(f"忙しい: {DOWNGRADE_TITLE}", on_click=handle_downgrade, use_container_width=True)
         
-        with btn_col3:
-            st.button("戦略的休息（スキップ）", on_click=handle_skip, use_container_width=True)
+        st.markdown("<div id='tertiary-btn-anchor'></div>", unsafe_allow_html=True)
+        st.button("戦略的休息（スキップ）", on_click=handle_skip, use_container_width=True)
 
     else:
         # 完了画面
